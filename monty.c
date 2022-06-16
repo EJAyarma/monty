@@ -25,18 +25,18 @@ int main(int argc, char const *argv[])
 		fprintf(stderr, "Usage: monty file\n");
 		exit(EXIT_FAILURE);
 	}
-	LINES = textfile_to_array(argv[1]);
+	lines = textfile_to_array(argv[1]);
 	if (lines == NULL)
 		return (0);
 
 	line_num = 0;
 	while ((lines + line_num)->content != NULL)
 	{
-		content = (line + line_num)->content;
+		content = (lines + line_num)->content;
 		line = split_line(content);
 		operand = line[1];
 
-		func = get_op_function(line[0]);
+		func = get_op_func(line[0]);
 		if (func == NULL)
 		{
 			fprintf(stderr, "L%d: unknown instruction %s\n", line_num + 1, line[0]);
