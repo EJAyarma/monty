@@ -29,7 +29,7 @@ int main(int argc, char const *argv[])
 	if (lines == NULL)
 		return (0);
 
-	lun_num = 0;
+	line_num = 0;
 	while ((lines + line_num)->content != NULL)
 	{
 		content = (line + line_num)->content;
@@ -41,17 +41,13 @@ int main(int argc, char const *argv[])
 		{
 			fprintf(stderr, "L%d: unknown instruction %s\n", line_num + 1, line[0]);
 			free(line);
-			free_stack(stack)
-				free_lines(lines);
+			free_stack(stack);
+			free_lines(lines);
 			exit(EXIT_FAILURE);
 		}
-
 		func(&stack, line_num + 1);
-	}
-
-	func(&stack, line_num + 1);
-	free(line);
-	line_num++;
+		free(line);
+		line_num++;
 }
 
 free_stack(stack);

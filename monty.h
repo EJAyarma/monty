@@ -68,11 +68,13 @@ typedef struct line_s
 	char *content;
 	int number;
 } line_t;
-void op_*push(stack_t **stack, unsigned int line_number);
-void *op_pall(stack_t **stack, unsigned int line_number);
-void *op_pint(stack_t **stack, unsigned int line_number);
-void *op_pop(stack_t **stack, unsigned int line_number);
-void *op_swap(stack_t **stack, unsigned int line_number);
+
+line_t *textfile_to_array(const char *filename);
+void op_push(stack_t **stack, unsigned int line_number);
+void op_pall(stack_t **stack, unsigned int line_number);
+void op_pint(stack_t **stack, unsigned int line_number);
+void op_pop(stack_t **stack, unsigned int line_number);
+void op_swap(stack_t **stack, unsigned int line_number);
 
 char **split_line(char *line);
 void (*get_op_func(char *s))(stack_t**, unsigned int);
