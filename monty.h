@@ -1,30 +1,33 @@
 #ifndef MONTY_H
 #define MONTY_H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <unistd.h>
-#include <stdbool.h>
-#include <ctype.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 #include <fcntl.h>
-/** monty defined errors */
-#define MONTY_ERROR_NONE 0
-#define MONTY_ERROR_INVALID_OPCODE 1
-#define MONTY_ERROR_PUSH_MISSING_ARG 2
-#define MONTY_ERROR_PUSH_INVALID_ARG 3
-#define MONTY_ERROR_PINT_EMPTY 4
-#define MONTY_ERROR_POP_EMPTY 5
+#include <unistd.h>
+/**
+ * struct globals - variables globales
+ * @num: integer
+ * @flag: integer
+ * @line: string
+ * @token: string
+ * @opcod: function opcode in Monty
+ * @fil: file
+ */
+typedef struct globals
+{
+int num;
+int flag;
+char *line;
+char *token;
+char *opco;
+FILE *fil;
+} globals_t;
 
-typedef struct monty_s{
-	char *save_ptr;
-	int line;
-	char *token;
-	int mode;
-	int error;
-}monty_t;
-
-extern char* operand;
-
+extern globals_t global;
 /**
  * struct stack_s - doubly linked list representation of a stack (or queue)
  * @n: integer
@@ -32,13 +35,13 @@ extern char* operand;
  * @next: points to the next element of the stack (or queue)
  *
  * Description: doubly linked list node structure
- * for stack, queues, LIFO, FIFO
+ * for stack, queues, LIFO, FIFO Holberton project
  */
 typedef struct stack_s
 {
-	int n;
-	struct stack_s *prev;
-	struct stack_s *next;
+int n;
+struct stack_s *prev;
+struct stack_s *next;
 } stack_t;
 
 /**
@@ -47,39 +50,38 @@ typedef struct stack_s
  * @f: function to handle the opcode
  *
  * Description: opcode and its function
- * for stack, queues, LIFO, FIFO
+ * for stack, queues, LIFO, FIFO Holberton project
  */
 typedef struct instruction_s
 {
-	char *opcode;
-	void (*f)(stack_t **stack, unsigned int line_number);
+char *opcode;
+void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
-/**
- * struct lines_s - line content and numer
- * @content: line content
- * @number: line number
- *
- * Description: store line of monty source code
- * */
+void _mod(stack_t **stack, unsigned int num_line);
+void _pchar(stack_t **stack, unsigned int num_line);
+void _rotr(stack_t **stack, unsigned int num_line);
+void _rotl(stack_t **stack, unsigned int num_line);
+void _stack(stack_t **stack, unsigned int num_line);
+void _queue(stack_t **stack, unsigned int num_line);
+void _pstr(stack_t **stack, unsigned int num_line);
+void _mul(stack_t **stack, unsigned int num_line);
+void _verify2(stack_t **stack, unsigned int n);
+void _error(stack_t **stack, unsigned int n);
+void free_l(stack_t **stack);
+void _div(stack_t **stack, unsigned int num_line);
+void _sub(stack_t **stack, unsigned int num_line);
+void _nop(stack_t **stack, unsigned int num_line);
+int _verify1(char *num);
+int _size_line(char *line);
+char delete_jump(char *line);
+void _swap(stack_t **stack, __attribute__((unused)) unsigned int num_line);
+void _add(stack_t **stack, __attribute__((unused)) unsigned int num_line);
+void _pint(stack_t **stack, unsigned int num_line);
+void _pop(stack_t **stack, unsigned int num_line);
+void (*func(char *tokens))(stack_t **stack, unsigned int num_line);
+int main(__attribute__((unused)) int argc, char **argv);
+void _pall(stack_t **stack, unsigned int num_line);
+void _push(stack_t **stack, unsigned int num_line);
 
-typedef struct line_s
-{
-	char *content;
-	int number;
-} line_t;
-
-line_t *textfile_to_array(const char *filename);
-void op_push(stack_t **stack, unsigned int line_number);
-void op_pall(stack_t **stack, unsigned int line_number);
-void op_pint(stack_t **stack, unsigned int line_number);
-void op_pop(stack_t **stack, unsigned int line_number);
-void op_swap(stack_t **stack, unsigned int line_number);
-
-char **split_line(char *line);
-void (*get_op_func(char *s))(stack_t**, unsigned int);
-
-void free_lines(line_t *head);
-void free_stack(stack_t *head);
-int _atoi(char *s, int* n);
 #endif
